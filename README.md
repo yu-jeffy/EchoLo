@@ -20,7 +20,6 @@ pip install scapy get-mac
 
 python EchoLo.py -t
 
-Markdown
 
 ### Output 📄
 Outputs a clean table with IP, MAC Address, OS, and Interface of each connected device in the provided IP range. Additionally, provides Traceroute and Port details for each IP.
