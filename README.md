@@ -14,7 +14,7 @@ A Python-based network scanner, designed to make network exploration efficient a
 
 pip install scapy get-mac
 
-Markdown
+
 2. Run the script providing target IP or IP range as argument.
 
 
