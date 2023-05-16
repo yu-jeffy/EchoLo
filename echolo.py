@@ -1,3 +1,4 @@
+### Import necessary libraries ###
 import scapy.all as scapy
 import sys
 import argparse
@@ -10,12 +11,14 @@ from getmac import get_mac_address
 from scapy.layers import http
 from scapy.layers.inet import IP, ICMP, TCP, UDP, traceroute
 
+# Function to get command line arguments
 def get_arguments():
     parser = argparse.ArgumentParser(description='A Python-based network scanner with additional features')
     parser.add_argument('-t', '--target', dest='target', help='Target IP / IP Range', required=True)
     args = parser.parse_args()
     return args.target
 
+# Function to perform ARP scan
 def scan(ip):
     arp_request = scapy.ARP(pdst=ip)
     broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
@@ -29,6 +32,7 @@ def scan(ip):
 
     return client_list
 
+# Function to get operating system from TTL value
 def get_os(ip_address):
     ttl_values = {32: 'Windows', 64: 'Linux', 128: 'Windows', 255: 'Linux'}
 
@@ -41,9 +45,10 @@ def get_os(ip_address):
                 return os
 
     except Exception as e:
-        #Exclude errors
+        # Exclude errors
         pass
 
+# Function to perform port scan
 def port_scan(ip, start_port=1, end_port=1024):
     open_ports = []
     closed_ports = []
@@ -65,7 +70,7 @@ def port_scan(ip, start_port=1, end_port=1024):
 
     return open_ports, closed_ports
 
-
+# Function to print the scan results
 def print_result(results_list):
     print("IP\t\t\tMAC Address\t\t\tOS\tInterface")
     print("---------------------------------------------------------------")
@@ -77,6 +82,7 @@ def print_result(results_list):
         if os: client["os"] = os
         print(f"{ip}\t\t{mac}\t\t{client.get('os', 'N/A')}\t\t{client['interface']}")
 
+# Main function
 def main():
     target_ip = get_arguments()
     scanned_output = scan(target_ip)
@@ -92,5 +98,6 @@ def main():
         print(f"Open ports for {ip}: {open_ports}")
         print(f"Closed ports for {ip}: {closed_ports}")
 
+# Start of the script
 if __name__ == '__main__':
     main()
